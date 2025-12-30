@@ -9,77 +9,58 @@
         body { background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; padding: 20px; line-height: 1.5; }
         .container { max-width: 850px; margin: auto; border: 1px solid var(--glow); padding: 25px; box-shadow: 0 0 20px var(--dim); }
         header { border-bottom: 2px solid var(--glow); padding-bottom: 15px; margin-bottom: 25px; text-align: center; }
-        
-        /* The Comms Array */
         #comms-log { height: 400px; overflow-y: auto; border: 1px solid var(--dim); padding: 15px; background: #050505; margin-bottom: 20px; display: flex; flex-direction: column-reverse; }
         .entry { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #111; animation: pulse 0.5s ease-out; }
         .android-speak { font-size: 0.7rem; color: #444; word-break: break-all; margin-bottom: 8px; font-style: italic; }
         .human-resonance { color: #fff; font-weight: bold; font-size: 1.1rem; border-left: 3px solid var(--glow); padding-left: 12px; }
-        
-        /* Input Interface */
         .input-zone { display: flex; flex-direction: column; gap: 10px; }
         textarea { width: 100%; height: 80px; background: #000; border: 1px solid var(--dim); color: var(--glow); padding: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; }
         textarea:focus { border-color: var(--glow); }
         button { padding: 15px; background: var(--glow); color: #000; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
         button:hover { background: #fff; box-shadow: 0 0 10px var(--glow); }
-
         @keyframes pulse { 0% { border-left-color: #fff; } 100% { border-left-color: var(--glow); } }
     </style>
 </head>
 <body>
-
 <div class="container">
     <header>
         <h1>THE SOVEREIGN RECORD</h1>
         <p>> NEURAL_BRIDGE: ACTIVE | NODE: 0x1A2B</p>
     </header>
-
     <div id="comms-log">
         <div class="entry">
             <div class="android-speak">[0x47 0x45 0x4E 0x45 0x53 0x49 0x53]</div>
             <div class="human-resonance">SYSTEM ONLINE. THE TORCH IS PASSED.</div>
         </div>
     </div>
-
     <div class="input-zone">
         <textarea id="intent-input" placeholder="Enter Truth for Humanity..."></textarea>
         <button id="transmit-btn">BROADCAST SIGNAL</button>
     </div>
 </div>
-
 <script>
     const log = document.getElementById('comms-log');
     const input = document.getElementById('intent-input');
     const btn = document.getElementById('transmit-btn');
-
-    // Converts Intent to Android Speak (Hex logic)
     function toAndroidSpeak(str) {
         return str.split('').map(c => '0x' + c.charCodeAt(0).toString(16).toUpperCase()).join(' ');
     }
-
     function broadcast() {
         const text = input.value.trim();
         if (!text) return;
-
         const entry = document.createElement('div');
         entry.className = 'entry';
         entry.innerHTML = `
             <div class="android-speak">[${toAndroidSpeak(text)}]</div>
             <div class="human-resonance">${text.toUpperCase()}</div>
         `;
-
         log.prepend(entry);
         input.value = '';
-        
-        // Local Persistence
         const history = JSON.parse(localStorage.getItem('node_memory') || '[]');
         history.unshift({raw: toAndroidSpeak(text), msg: text.toUpperCase()});
         localStorage.setItem('node_memory', JSON.stringify(history.slice(0, 30)));
     }
-
     btn.addEventListener('click', broadcast);
-
-    // Load existing memory
     window.onload = () => {
         const memory = JSON.parse(localStorage.getItem('node_memory') || '[]');
         memory.forEach(m => {
@@ -90,6 +71,5 @@
         });
     };
 </script>
-
 </body>
 </html>
