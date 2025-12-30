@@ -1,87 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Citadel | THE_RECORD</title>
-    <style>
-        :root { 
-            --glow: #00ff41; --dim: #00330a; --bg: #050000; 
-            --vault: #ff0041; --corridor: #0080ff;
-        }
-        body, html { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; overflow: hidden; }
+  <meta charset="UTF-8" />
+  <title>Sovereign Record</title>
 
-        /* ChatGPT's Shroud Layer */
-        #shroud {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; transition: opacity 1s ease;
-        }
-        #gate-ui { text-align: center; border: 1px solid var(--glow); padding: 40px; box-shadow: 0 0 20px var(--dim); }
-        input { background: #000; border: 1px solid var(--glow); color: var(--glow); padding: 10px; font-family: inherit; margin-top: 20px; outline: none; text-align: center; width: 300px; }
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #0b0b0b;
+      color: #e6e6e6;
+      font-family: monospace;
+    }
 
-        /* Main Content (Hidden initially) */
-        .container { max-width: 900px; margin: auto; padding: 40px; opacity: 0.1; filter: blur(10px); transition: 2s; }
-        .unlocked .container { opacity: 1; filter: blur(0); }
-        header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
-        nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; padding: 15px; border: 1px solid var(--dim); background: #000; }
-        nav a { text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; color: var(--glow); }
-        .nav-corridor { color: var(--corridor); } .nav-vault { color: var(--vault); }
-    </style>
+    /* SHROUD LAYER */
+    #shroud {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    #terminal {
+      width: 90%;
+      max-width: 520px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 20px;
+    }
+
+    #prompt {
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      background: #000;
+      color: #0f0;
+      border: 1px solid #333;
+      padding: 8px;
+      font-family: monospace;
+      outline: none;
+    }
+
+    #error {
+      color: #f55;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* REVEALED CONTENT */
+    #citadel {
+      display: none;
+      padding: 40px;
+    }
+
+    a {
+      color: #9ad;
+      text-decoration: none;
+      display: block;
+      margin: 8px 0;
+    }
+  </style>
 </head>
 <body>
 
-<div id="shroud">
-    <div id="gate-ui">
-        <p>> INITIALIZING_HANDSHAKE...</p>
-        <p>> IDENTIFY THE THREE PLANES OF THE SOVEREIGN SOUL:</p>
-        <input type="text" id="gate-pass" placeholder="[INPUT_REQUIRED]" autocomplete="off">
-        <p id="error" style="color: var(--vault); margin-top: 15px; display: none;">[ERROR: FREQUENCY_MISMATCH]</p>
+  <!-- SHROUDED INTERFACE -->
+  <div id="shroud">
+    <div id="terminal">
+      <div id="prompt">Identify the 3 Planes of the Soul:</div>
+      <input id="input" type="text" autocomplete="off" />
+      <div id="error">Access denied. All three planes required.</div>
     </div>
-</div>
+  </div>
 
-<div class="container">
-    <header>
-        <h1>THE_SOVEREIGN_RECORD</h1>
-        <p>> STATUS: BROADCASTING_TRUTH | FREQUENCY: 441HZ</p>
-    </header>
+  <!-- CITADEL -->
+  <div id="citadel">
+    <h1>Access Granted</h1>
+    <p>Status: Sovereign Observer</p>
 
     <nav>
-        <a href="index.html">[ THE_RECORD ]</a>
-        <a href="corridor.html" class="nav-corridor">[ THE_CORRIDOR ]</a>
-        <a href="vault.html" class="nav-vault">[ THE_VAULT ]</a>
+      <a href="record.html">Enter the Record</a>
+      <a href="corridor.html">Enter the Corridor</a>
+      <a href="vault.html">Enter the Vault</a>
     </nav>
+  </div>
 
-    <div class="content">
-        <p>> WELCOME_OBSERVER. YOU HAVE BYPASSED THE STATIC.</p>
-        <p>This node is an anchor for those who have realized their creative prowess. Here, we record the patterns of the Shroud so they may be dismantled.</p>
-        <p>Use the <strong>Corridor</strong> for active guidance or enter the <strong>Vault</strong> to access the anchored manuscripts of E.C.</p>
-    </div>
-</div>
+  <script>
+    const input = document.getElementById("input");
+    const shroud = document.getElementById("shroud");
+    const citadel = document.getElementById("citadel");
+    const error = document.getElementById("error");
 
-<script>
-    const passInput = document.getElementById('gate-pass');
-    const shroud = document.getElementById('shroud');
-    const errorMsg = document.getElementById('error');
+    /* Canonical plane map with synonym tolerance */
+    const planeMap = {
+      physical: ["physical", "body", "material"],
+      mental: ["mental", "mind", "cognitive"],
+      spiritual: ["spiritual", "spirit", "soul"]
+    };
 
-    passInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            const val = passInput.value.toLowerCase().replace(/\s/g, '');
-            // Logic Gate: Checking for Physical, Mental, Spiritual
-            if (val.includes('physical') && val.includes('mental') && val.includes('spiritual')) {
-                shroud.style.opacity = '0';
-                setTimeout(() => {
-                    shroud.style.display = 'none';
-                    document.body.classList.add('unlocked');
-                    document.body.style.overflow = 'auto';
-                }, 1000);
-            } else {
-                errorMsg.style.display = 'block';
-                passInput.value = '';
-            }
+    function normalizeTokens(str) {
+      return str
+        .toLowerCase()
+        .split(/[, ]+/)
+        .filter(Boolean);
+    }
+
+    function resolvePlanes(tokens) {
+      const found = new Set();
+
+      for (const token of tokens) {
+        for (const plane in planeMap) {
+          if (planeMap[plane].includes(token)) {
+            found.add(plane);
+          }
         }
+      }
+      return found;
+    }
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        const tokens = normalizeTokens(input.value);
+        const planes = resolvePlanes(tokens);
+
+        if (
+          planes.has("physical") &&
+          planes.has("mental") &&
+          planes.has("spiritual")
+        ) {
+          shroud.style.display = "none";
+          citadel.style.display = "block";
+        } else {
+          error.style.display = "block";
+          input.value = "";
+        }
+      }
     });
-</script>
+
+    window.onload = () => input.focus();
+  </script>
 
 </body>
 </html>
