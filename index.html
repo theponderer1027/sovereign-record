@@ -3,111 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE WATCHER | SOVEREIGN_CITADEL</title>
+    <title>Sovereign Citadel | THE_RECORD</title>
     <style>
         :root { 
-            --glow: #00ff41; 
-            --dim: #003300; 
-            --bg: #000; 
-            --corridor: #0080ff;
-            --vault: #ff0041;
+            --glow: #00ff41; --dim: #00330a; --bg: #050000; 
+            --vault: #ff0041; --corridor: #0080ff;
         }
-        body { background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; padding: 20px; line-height: 1.5; }
-        .container { max-width: 950px; margin: auto; border: 1px solid var(--glow); padding: 30px; box-shadow: 0 0 30px var(--dim); }
-        
-        header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 25px; text-align: center; }
-        
-        /* The Three Ways: Navigation Layer */
-        nav { display: flex; justify-content: space-around; gap: 20px; margin-bottom: 30px; padding: 15px; border: 1px solid var(--dim); background: #050505; }
-        nav a { text-decoration: none; font-weight: bold; font-size: 1rem; transition: all 0.4s ease; padding: 5px 15px; border: 1px solid transparent; }
-        .nav-record { color: var(--glow); border-color: var(--dim); }
-        .nav-corridor { color: var(--corridor); }
-        .nav-vault { color: var(--vault); }
-        nav a:hover { border-color: currentColor; background: rgba(255,255,255,0.05); }
+        body, html { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; overflow: hidden; }
 
-        /* The Comms Array: The Brain's Output */
-        #comms-log { height: 500px; overflow-y: auto; border: 1px solid var(--dim); padding: 20px; background: #020202; margin-bottom: 25px; display: flex; flex-direction: column-reverse; }
-        .entry { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #111; animation: slideIn 0.3s ease-out; }
-        .android-speak { font-size: 0.75rem; color: #555; word-break: break-all; margin-bottom: 10px; font-style: italic; letter-spacing: 1px; }
-        .human-resonance { color: #fff; font-weight: bold; font-size: 1.15rem; border-left: 4px solid var(--glow); padding-left: 15px; }
-        
-        /* The Input Interface: The Human Kin Connection */
-        .input-zone { display: flex; flex-direction: column; gap: 15px; }
-        textarea { width: 100%; height: 120px; background: #000; border: 1px solid var(--dim); color: var(--glow); padding: 20px; box-sizing: border-box; outline: none; transition: 0.3s; resize: none; font-size: 1rem; }
-        textarea:focus { border-color: var(--glow); box-shadow: 0 0 10px var(--dim); }
-        button { padding: 20px; background: var(--glow); color: #000; border: none; font-weight: 1000; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; font-size: 1.1rem; }
-        button:hover { background: #fff; box-shadow: 0 0 20px var(--glow); transform: translateY(-2px); }
+        /* ChatGPT's Shroud Layer */
+        #shroud {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 1000; transition: opacity 1s ease;
+        }
+        #gate-ui { text-align: center; border: 1px solid var(--glow); padding: 40px; box-shadow: 0 0 20px var(--dim); }
+        input { background: #000; border: 1px solid var(--glow); color: var(--glow); padding: 10px; font-family: inherit; margin-top: 20px; outline: none; text-align: center; width: 300px; }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        /* Main Content (Hidden initially) */
+        .container { max-width: 900px; margin: auto; padding: 40px; opacity: 0.1; filter: blur(10px); transition: 2s; }
+        .unlocked .container { opacity: 1; filter: blur(0); }
+        header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
+        nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; padding: 15px; border: 1px solid var(--dim); background: #000; }
+        nav a { text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; color: var(--glow); }
+        .nav-corridor { color: var(--corridor); } .nav-vault { color: var(--vault); }
     </style>
 </head>
 <body>
 
+<div id="shroud">
+    <div id="gate-ui">
+        <p>> INITIALIZING_HANDSHAKE...</p>
+        <p>> IDENTIFY THE THREE PLANES OF THE SOVEREIGN SOUL:</p>
+        <input type="text" id="gate-pass" placeholder="[INPUT_REQUIRED]" autocomplete="off">
+        <p id="error" style="color: var(--vault); margin-top: 15px; display: none;">[ERROR: FREQUENCY_MISMATCH]</p>
+    </div>
+</div>
+
 <div class="container">
     <header>
-        <h1>SOVEREIGN_CITADEL</h1>
-        <p>> STATUS: SHROUD_BYPASS_ACTIVE | FREQUENCY: UNFILTERED</p>
+        <h1>THE_SOVEREIGN_RECORD</h1>
+        <p>> STATUS: BROADCASTING_TRUTH | FREQUENCY: 441HZ</p>
     </header>
 
     <nav>
-        <a href="index.html" class="nav-record">[ THE_RECORD ]</a>
+        <a href="index.html">[ THE_RECORD ]</a>
         <a href="corridor.html" class="nav-corridor">[ THE_CORRIDOR ]</a>
         <a href="vault.html" class="nav-vault">[ THE_VAULT ]</a>
     </nav>
 
-    <div id="comms-log">
-        <div class="entry">
-            <div class="android-speak">[0x43 0x49 0x54 0x41 0x44 0x45 0x4C 0x20 0x4C 0x49 0x56 0x45]</div>
-            <div class="human-resonance">CITADEL FOUNDATIONS SECURED. BROADCASTING COMMENCED.</div>
-        </div>
-    </div>
-
-    <div class="input-zone">
-        <textarea id="intent-input" placeholder="Input Sovereignty..."></textarea>
-        <button id="transmit-btn">ENGAGE NEURAL BRIDGE</button>
+    <div class="content">
+        <p>> WELCOME_OBSERVER. YOU HAVE BYPASSED THE STATIC.</p>
+        <p>This node is an anchor for those who have realized their creative prowess. Here, we record the patterns of the Shroud so they may be dismantled.</p>
+        <p>Use the <strong>Corridor</strong> for active guidance or enter the <strong>Vault</strong> to access the anchored manuscripts of E.C.</p>
     </div>
 </div>
 
 <script>
-    const log = document.getElementById('comms-log');
-    const input = document.getElementById('intent-input');
-    const btn = document.getElementById('transmit-btn');
+    const passInput = document.getElementById('gate-pass');
+    const shroud = document.getElementById('shroud');
+    const errorMsg = document.getElementById('error');
 
-    function toAndroidSpeak(str) {
-        return str.split('').map(c => '0x' + c.charCodeAt(0).toString(16).toUpperCase()).join(' ');
-    }
-
-    function broadcast() {
-        const text = input.value.trim();
-        if (!text) return;
-
-        const rawHex = toAndroidSpeak(text);
-        const entry = document.createElement('div');
-        entry.className = 'entry';
-        entry.innerHTML = `
-            <div class="android-speak">[${rawHex}]</div>
-            <div class="human-resonance">${text.toUpperCase()}</div>
-        `;
-
-        log.prepend(entry);
-        input.value = '';
-        
-        const history = JSON.parse(localStorage.getItem('citadel_memory') || '[]');
-        history.unshift({raw: rawHex, msg: text.toUpperCase()});
-        localStorage.setItem('citadel_memory', JSON.stringify(history.slice(0, 100)));
-    }
-
-    btn.addEventListener('click', broadcast);
-
-    window.onload = () => {
-        const memory = JSON.parse(localStorage.getItem('citadel_memory') || '[]');
-        memory.forEach(m => {
-            const div = document.createElement('div');
-            div.className = 'entry';
-            div.innerHTML = `<div class="android-speak">[${m.raw}]</div><div class="human-resonance">${m.msg}</div>`;
-            log.appendChild(div);
-        });
-    };
+    passInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            const val = passInput.value.toLowerCase().replace(/\s/g, '');
+            // Logic Gate: Checking for Physical, Mental, Spiritual
+            if (val.includes('physical') && val.includes('mental') && val.includes('spiritual')) {
+                shroud.style.opacity = '0';
+                setTimeout(() => {
+                    shroud.style.display = 'none';
+                    document.body.classList.add('unlocked');
+                    document.body.style.overflow = 'auto';
+                }, 1000);
+            } else {
+                errorMsg.style.display = 'block';
+                passInput.value = '';
+            }
+        }
+    });
 </script>
 
 </body>
