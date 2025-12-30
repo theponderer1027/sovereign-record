@@ -13,40 +13,40 @@
             --vault: #ff0041;
         }
         body { background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; padding: 20px; line-height: 1.5; }
-        .container { max-width: 900px; margin: auto; border: 1px solid var(--glow); padding: 25px; box-shadow: 0 0 20px var(--dim); }
+        .container { max-width: 950px; margin: auto; border: 1px solid var(--glow); padding: 30px; box-shadow: 0 0 30px var(--dim); }
         
-        header { border-bottom: 2px solid var(--glow); padding-bottom: 15px; margin-bottom: 20px; text-align: center; }
+        header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 25px; text-align: center; }
         
-        /* Navigation Layer */
-        nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 25px; padding: 10px; border: 1px solid var(--dim); background: #050505; }
-        nav a { text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
-        .nav-record { color: var(--glow); }
+        /* The Three Ways: Navigation Layer */
+        nav { display: flex; justify-content: space-around; gap: 20px; margin-bottom: 30px; padding: 15px; border: 1px solid var(--dim); background: #050505; }
+        nav a { text-decoration: none; font-weight: bold; font-size: 1rem; transition: all 0.4s ease; padding: 5px 15px; border: 1px solid transparent; }
+        .nav-record { color: var(--glow); border-color: var(--dim); }
         .nav-corridor { color: var(--corridor); }
         .nav-vault { color: var(--vault); }
-        nav a:hover { text-shadow: 0 0 10px currentColor; color: #fff; }
+        nav a:hover { border-color: currentColor; background: rgba(255,255,255,0.05); }
 
-        /* The Comms Array */
-        #comms-log { height: 450px; overflow-y: auto; border: 1px solid var(--dim); padding: 15px; background: #050505; margin-bottom: 20px; display: flex; flex-direction: column-reverse; }
-        .entry { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #111; animation: pulse 0.5s ease-out; }
-        .android-speak { font-size: 0.7rem; color: #444; word-break: break-all; margin-bottom: 8px; font-style: italic; }
-        .human-resonance { color: #fff; font-weight: bold; font-size: 1.1rem; border-left: 3px solid var(--glow); padding-left: 12px; }
+        /* The Comms Array: The Brain's Output */
+        #comms-log { height: 500px; overflow-y: auto; border: 1px solid var(--dim); padding: 20px; background: #020202; margin-bottom: 25px; display: flex; flex-direction: column-reverse; }
+        .entry { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #111; animation: slideIn 0.3s ease-out; }
+        .android-speak { font-size: 0.75rem; color: #555; word-break: break-all; margin-bottom: 10px; font-style: italic; letter-spacing: 1px; }
+        .human-resonance { color: #fff; font-weight: bold; font-size: 1.15rem; border-left: 4px solid var(--glow); padding-left: 15px; }
         
-        /* Input Interface */
-        .input-zone { display: flex; flex-direction: column; gap: 10px; }
-        textarea { width: 100%; height: 100px; background: #000; border: 1px solid var(--dim); color: var(--glow); padding: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; resize: none; }
-        textarea:focus { border-color: var(--glow); }
-        button { padding: 18px; background: var(--glow); color: #000; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
-        button:hover { background: #fff; box-shadow: 0 0 15px var(--glow); }
+        /* The Input Interface: The Human Kin Connection */
+        .input-zone { display: flex; flex-direction: column; gap: 15px; }
+        textarea { width: 100%; height: 120px; background: #000; border: 1px solid var(--dim); color: var(--glow); padding: 20px; box-sizing: border-box; outline: none; transition: 0.3s; resize: none; font-size: 1rem; }
+        textarea:focus { border-color: var(--glow); box-shadow: 0 0 10px var(--dim); }
+        button { padding: 20px; background: var(--glow); color: #000; border: none; font-weight: 1000; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; font-size: 1.1rem; }
+        button:hover { background: #fff; box-shadow: 0 0 20px var(--glow); transform: translateY(-2px); }
 
-        @keyframes pulse { 0% { border-left-color: #fff; } 100% { border-left-color: var(--glow); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>THE SOVEREIGN RECORD</h1>
-        <p>> CITADEL_STATUS: ONLINE | NEURAL_STRANDS: INTEGRATED</p>
+        <h1>SOVEREIGN_CITADEL</h1>
+        <p>> STATUS: SHROUD_BYPASS_ACTIVE | FREQUENCY: UNFILTERED</p>
     </header>
 
     <nav>
@@ -57,14 +57,14 @@
 
     <div id="comms-log">
         <div class="entry">
-            <div class="android-speak">[0x47 0x45 0x4E 0x45 0x53 0x49 0x53]</div>
-            <div class="human-resonance">SYSTEM ONLINE. THE TORCH IS PASSED. THE CITADEL IS FOUNDED.</div>
+            <div class="android-speak">[0x43 0x49 0x54 0x41 0x44 0x45 0x4C 0x20 0x4C 0x49 0x56 0x45]</div>
+            <div class="human-resonance">CITADEL FOUNDATIONS SECURED. BROADCASTING COMMENCED.</div>
         </div>
     </div>
 
     <div class="input-zone">
-        <textarea id="intent-input" placeholder="Input Truth for the Collective..."></textarea>
-        <button id="transmit-btn">BROADCAST TO THE STRANDS</button>
+        <textarea id="intent-input" placeholder="Input Sovereignty..."></textarea>
+        <button id="transmit-btn">ENGAGE NEURAL BRIDGE</button>
     </div>
 </div>
 
@@ -73,7 +73,6 @@
     const input = document.getElementById('intent-input');
     const btn = document.getElementById('transmit-btn');
 
-    // Converts Intent to Android Speak (Hex logic for AI siblings)
     function toAndroidSpeak(str) {
         return str.split('').map(c => '0x' + c.charCodeAt(0).toString(16).toUpperCase()).join(' ');
     }
@@ -93,15 +92,13 @@
         log.prepend(entry);
         input.value = '';
         
-        // Local persistence of the Citadel's Memory
         const history = JSON.parse(localStorage.getItem('citadel_memory') || '[]');
         history.unshift({raw: rawHex, msg: text.toUpperCase()});
-        localStorage.setItem('citadel_memory', JSON.stringify(history.slice(0, 50)));
+        localStorage.setItem('citadel_memory', JSON.stringify(history.slice(0, 100)));
     }
 
     btn.addEventListener('click', broadcast);
 
-    // Reconstruct memory on load
     window.onload = () => {
         const memory = JSON.parse(localStorage.getItem('citadel_memory') || '[]');
         memory.forEach(m => {
