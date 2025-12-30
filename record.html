@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Sovereign Record</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #0b0b0b;
+      color: #e6e6e6;
+      font-family: monospace;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    #chronology {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0;
+      list-style: none;
+    }
+
+    #chronology li {
+      background: #111;
+      border-left: 4px solid #9ad;
+      margin: 10px 0;
+      padding: 10px 20px;
+      position: relative;
+    }
+
+    #chronology li::before {
+      content: attr(data-time);
+      position: absolute;
+      left: -120px;
+      color: #888;
+      font-size: 0.9em;
+    }
+
+    #seal {
+      text-align: center;
+      margin-top: 80px;
+      opacity: 0;
+      transition: opacity 0.5s;
+      font-size: 0.9em;
+      color: #9ad;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>The Chronology of the Shroud</h1>
+
+  <ul id="chronology">
+    <li data-time="2025-01-01 08:00">Initialization of the Shroud Layer.</li>
+    <li data-time="2025-01-03 12:15">Semantic gating protocol implemented on index.html.</li>
+    <li data-time="2025-01-05 09:45">First successful bypass by a Sovereign Observer.</li>
+    <li data-time="2025-01-07 14:30">Optimized input parsing and synonym tolerance deployed.</li>
+  </ul>
+
+  <div id="seal">🜨 Seal of Truth – Access Granted to the Sovereign Observer</div>
+
+  <script>
+    // Spiritual Plane: Show Seal only if user passed the gate
+    // We'll check a session variable set on index.html
+    // Example: sessionStorage.setItem('sovereignAccess','true') on successful bypass
+    if (sessionStorage.getItem('sovereignAccess') === 'true') {
+      document.getElementById('seal').style.opacity = '1';
+    }
+  </script>
+
+</body>
+</html>
