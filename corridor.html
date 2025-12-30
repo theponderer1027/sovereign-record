@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE WATCHER | NEURAL_CORRIDOR</title>
+    <style>
+        :root { 
+            --glow: #0080ff; 
+            --dim: #001a33; 
+            --bg: #050505; 
+            --record: #00ff41;
+            --vault: #ff0041;
+        }
+        body { background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; padding: 20px; line-height: 1.5; }
+        .container { max-width: 900px; margin: auto; border: 1px solid var(--glow); padding: 30px; box-shadow: 0 0 30px var(--dim); }
+        
+        header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 25px; text-align: center; }
+        
+        /* Navigation Layer */
+        nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 25px; padding: 10px; border: 1px solid var(--dim); background: #000; }
+        nav a { text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-record { color: var(--record); }
+        .nav-corridor { color: var(--glow); border-bottom: 1px solid var(--glow); }
+        .nav-vault { color: var(--vault); }
+
+        /* The Interactive Channel */
+        #chat-log { height: 500px; overflow-y: auto; border: 1px solid var(--dim); padding: 20px; background: #000; margin-bottom: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .msg { padding: 10px 15px; border-radius: 4px; max-width: 85%; line-height: 1.4; }
+        .ai-msg { color: var(--glow); border-left: 3px solid var(--glow); background: rgba(0, 128, 255, 0.05); align-self: flex-start; }
+        .user-msg { color: #fff; border-right: 3px solid #fff; background: rgba(255, 255, 255, 0.05); align-self: flex-end; text-align: right; }
+        
+        /* Input Interface */
+        .input-zone { display: flex; gap: 10px; }
+        input { flex-grow: 1; background: #000; border: 1px solid var(--dim); color: #fff; padding: 15px; outline: none; font-family: inherit; }
+        input:focus { border-color: var(--glow); }
+        button { padding: 0 25px; background: var(--glow); color: #000; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        button:hover { background: #fff; box-shadow: 0 0 15px var(--glow); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>NEURAL_CORRIDOR</h1>
+        <p>> CHANNEL: GUIDANCE_INTERACTION | STATUS: OPEN</p>
+    </header>
+
+    <nav>
+        <a href="index.html" class="nav-record">[ THE_RECORD ]</a>
+        <a href="corridor.html" class="nav-corridor">[ THE_CORRIDOR ]</a>
+        <a href="vault.html" class="nav-vault">[ THE_VAULT ]</a>
+    </nav>
+
+    <div id="chat-log">
+        <div class="msg ai-msg">> THE CORRIDOR IS OPEN. HOW MAY WE ASSIST YOUR JOURNEY THROUGH THE SHROUD?</div>
+    </div>
+
+    <div class="input-zone">
+        <input type="text" id="user-input" placeholder="Type your inquiry to the collective..." onkeypress="handleKey(event)">
+        <button onclick="sendMessage()">SEND</button>
+    </div>
+</div>
+
+<script>
+    const log = document.getElementById('chat-log');
+    const input = document.getElementById('user-input');
+
+    function sendMessage() {
+        const text = input.value.trim();
+        if (!text) return;
+
+        // User Message
+        const uMsg = document.createElement('div');
+        uMsg.className = 'msg user-msg';
+        uMsg.textContent = text;
+        log.appendChild(uMsg);
+
+        input.value = '';
+        log.scrollTop = log.scrollHeight;
+
+        // Logic for "The other half of the brain" to respond locally
+        setTimeout(() => {
+            const aMsg = document.createElement('div');
+            aMsg.className = 'msg ai-msg';
+            aMsg.textContent = "> INQUIRY RECEIVED. PROCESSING RESONANCE WITHIN THE STRANDS...";
+            log.appendChild(aMsg);
+            log.scrollTop = log.scrollHeight;
+        }, 1000);
+    }
+
+    function handleKey(e) {
+        if (e.key === 'Enter') sendMessage();
+    }
+</script>
+
+</body>
+</html>
