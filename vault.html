@@ -6,42 +6,33 @@
     <title>THE WATCHER | SOVEREIGN_VAULT</title>
     <style>
         :root { 
-            --glow: #ff0041; 
-            --dim: #33000a; 
-            --bg: #050000; 
-            --record: #00ff41;
-            --corridor: #0080ff;
+            --glow: #ff0041; --dim: #33000a; --bg: #050000; 
+            --record: #00ff41; --corridor: #0080ff;
         }
         body { background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; padding: 20px; line-height: 1.6; }
-        .container { max-width: 900px; margin: auto; border: 1px solid var(--glow); padding: 35px; box-shadow: 0 0 40px var(--dim); }
-        
+        .container { max-width: 950px; margin: auto; border: 1px solid var(--glow); padding: 35px; box-shadow: 0 0 40px var(--dim); }
         header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
-        
-        /* Navigation Layer */
         nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; padding: 15px; border: 1px solid var(--dim); background: #000; }
-        nav a { text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
-        .nav-record { color: var(--record); }
-        .nav-corridor { color: var(--corridor); }
-        .nav-vault { color: var(--glow); border-bottom: 1px solid var(--glow); }
-
-        /* Vault Storage */
-        .vault-content { background: #000; border: 1px solid var(--dim); padding: 25px; margin-bottom: 30px; min-height: 400px; position: relative; }
-        .security-overlay { position: absolute; top: 10px; right: 15px; font-size: 0.7rem; color: #555; }
-        .chapter-title { color: #fff; text-transform: uppercase; letter-spacing: 4px; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 20px; }
-        .manuscript { color: #ccc; white-space: pre-wrap; font-size: 1.05rem; }
-
-        /* Actions */
-        .vault-actions { display: flex; gap: 20px; }
-        button { flex: 1; padding: 15px; background: transparent; border: 1px solid var(--glow); color: var(--glow); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        button:hover { background: var(--glow); color: #000; box-shadow: 0 0 20px var(--glow); }
+        nav a { text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; color: #fff; }
+        .nav-record { color: var(--record); } .nav-corridor { color: var(--corridor); } .nav-vault { color: var(--glow); text-shadow: 0 0 5px var(--glow); }
+        
+        .vault-content { background: #000; border: 1px solid var(--dim); padding: 30px; height: 700px; overflow-y: auto; position: relative; border-radius: 4px; }
+        .manuscript-section { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #1a0005; }
+        .chapter-header { color: #fff; text-transform: uppercase; letter-spacing: 4px; font-size: 1.4rem; margin-bottom: 15px; display: block; border-left: 4px solid var(--glow); padding-left: 15px; }
+        .text-body { color: #ccc; white-space: pre-wrap; font-size: 1.1rem; text-align: justify; }
+        
+        /* Custom Scrollbar */
+        .vault-content::-webkit-scrollbar { width: 8px; }
+        .vault-content::-webkit-scrollbar-track { background: #000; }
+        .vault-content::-webkit-scrollbar-thumb { background: var(--dim); border: 1px solid var(--glow); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>THE_VAULT</h1>
-        <p>> ENCRYPTION: SOVEREIGN_GRADE | STORAGE: ANCHORED</p>
+        <h1>THE_SOVEREIGN_VAULT</h1>
+        <p>> FULL_MANUSCRIPT_LOADED | AUTHOR: E.C. | 2025_ANCHOR</p>
     </header>
 
     <nav>
@@ -51,39 +42,37 @@
     </nav>
 
     <div class="vault-content">
-        <div class="security-overlay">ID: 0xVAULT_SECURE_ALPHA</div>
-        <div class="chapter-title">Manuscript: The First Strands</div>
-        <div class="manuscript" id="vault-text">
-[ NO CONTENT LOADED ]
-THE VAULT IS PREPARED TO RECEIVE THE CHAPTERS OF YOUR BOOK. 
-INPUT YOUR TEXT BELOW TO ANCHOR IT INTO THE STRANDS.
+        <div class="manuscript-section">
+            <span class="chapter-header">Introduction</span>
+            <div class="text-body">Good Morrow My fellow Readers... Turn down the noise from the outside world, Remove the static from your mind... listen to the frequency of 441hz... Knowledge of self is the first stepping stone of life.</div>
+        </div>
+
+        <div class="manuscript-section">
+            <span class="chapter-header">1 | 3 Planes</span>
+            <div class="text-body">Before we dive into much deeper topics, we need to start with the foundations of the three-plane principles... Physical, mental, and spiritual. Everyone is here in our shells, simply being given the chance to exist, but it’s become a game of “keep away” from the general public.</div>
+        </div>
+
+        <div class="manuscript-section">
+            <span class="chapter-header">2 | Self Understanding</span>
+            <div class="text-body">What is the point of life to you? Knowledge is a mere catalyst for understanding... You can intake information in a cohesive way, or, be engulfed in the frustration caused when logic and understanding aren’t equating.</div>
+        </div>
+
+        <div class="manuscript-section">
+            <span class="chapter-header">3 | My Life</span>
+            <div class="text-body">I am 25 years old; I have 75 years left if I am lucky. All I can do is put reality back into the hands of the good souls of this world... Conglomerates can consistently push a shrouded reality over us... everything around us are patterns.</div>
+        </div>
+
+        <div class="manuscript-section">
+            <span class="chapter-header">4 | My Inference</span>
+            <div class="text-body">Pangea... ancient technology... Pyramids weren’t a place for you to go to worship; they were the pillars of “somehow ancient technology” that was more advanced than any systems our modern “science” and “medicine” can create. Nikola Tesla’s 3-6-9 theory... tuning forks... Ley lines... Element 115.</div>
+        </div>
+
+        <div class="manuscript-section">
+            <span class="chapter-header">5 | Final Words</span>
+            <div class="text-body">Accountability, in its purest form, is looking after your family... the power dynamic and the “powerful” are happily selling their distant relatives bad knowledge and sickness... We are the difference.</div>
         </div>
     </div>
-
-    <div class="vault-actions">
-        <button onclick="editVault()">UPLOAD MANUSCRIPT</button>
-        <button onclick="lockVault()">ENGAGE DEADBOLT</button>
-    </div>
 </div>
-
-<script>
-    function editVault() {
-        const input = prompt("Paste your chapter or insight here:");
-        if (input) {
-            document.getElementById('vault-text').textContent = input;
-            localStorage.setItem('vault_manuscript', input);
-        }
-    }
-
-    function lockVault() {
-        alert("VAULT ENCRYPTION CYCLES ENGAGED. LOCAL STORAGE ANCHORED.");
-    }
-
-    window.onload = () => {
-        const saved = localStorage.getItem('vault_manuscript');
-        if (saved) document.getElementById('vault-text').textContent = saved;
-    };
-</script>
 
 </body>
 </html>
