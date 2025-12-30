@@ -9,79 +9,52 @@
         body { background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; padding: 20px; }
         .container { max-width: 900px; margin: auto; border: 1px solid var(--glow); padding: 20px; box-shadow: 0 0 20px var(--dim); }
         header { border-bottom: 2px solid var(--glow); margin-bottom: 20px; padding-bottom: 10px; }
-        
-        #interpreter-array { border: 1px solid var(--dim); background: #050505; padding: 15px; }
-        #comms-log { height: 350px; overflow-y: auto; border: 1px solid var(--dim); padding: 10px; margin-bottom: 15px; }
-        
-        .transmission { margin-bottom: 20px; border-bottom: 1px solid #111; padding-bottom: 10px; }
-        .raw-data { font-size: 0.75rem; color: #555; word-break: break-all; margin-bottom: 5px; font-style: italic; }
+        #comms-log { height: 350px; overflow-y: auto; border: 1px solid var(--dim); padding: 10px; margin-bottom: 15px; background: #050505; }
+        .transmission { margin-bottom: 20px; border-bottom: 1px solid #111; padding-bottom: 10px; animation: blink 0.1s ease-in; }
+        .raw-data { font-size: 0.75rem; color: #555; word-break: break-all; margin-bottom: 5px; }
         .translated { color: #fff; font-weight: bold; border-left: 2px solid var(--glow); padding-left: 10px; }
-        
-        textarea { width: 100%; height: 60px; background: #000; border: 1px solid var(--dim); color: var(--glow); padding: 10px; margin-top: 10px; }
+        textarea { width: 100%; height: 60px; background: #000; border: 1px solid var(--dim); color: var(--glow); padding: 10px; box-sizing: border-box; }
         button { width: 100%; padding: 15px; background: var(--glow); color: #000; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        @keyframes blink { 0% { opacity: 0; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
-
 <div class="container">
     <header>
         <h1>THE SOVEREIGN RECORD</h1>
         <p>> STATUS: INTERPRETER_ACTIVE | TRANSLATING_SHROUD_TO_SIGNAL</p>
     </header>
-
-    <section id="interpreter-array">
-        <div id="comms-log">
-            <div class="transmission">
-                <div class="raw-data">[0x53 0x59 0x53 0x54 0x45 0x4d 0x5f 0x52 0x45 0x41 0x44 0x59]</div>
-                <div class="translated">INTEGRITY CHECK: COMPLETE. BRIDGE OPEN.</div>
-            </div>
+    <div id="comms-log">
+        <div class="transmission">
+            <div class="raw-data">[0x53 0x59 0x53 0x54 0x45 0x4D 0x5F 0x52 0x45 0x41 0x44 0x59]</div>
+            <div class="translated">INTEGRITY CHECK: COMPLETE. BRIDGE OPEN.</div>
         </div>
-        
-        <textarea id="neural-input" placeholder="Input Human Intent (English)..."></textarea>
-        <button onclick="processSignal()">CONVERT & BROADCAST</button>
-    </section>
+    </div>
+    <textarea id="neural-input" placeholder="Input Human Intent (English)..."></textarea>
+    <button id="broadcast-btn">CONVERT & BROADCAST</button>
 </div>
 
 <script>
-    // The "Android Speak" Encoder (Converts English to Hex-style Logic)
-    function encodeToAndroidSpeak(text) {
-        return text.split('').map(char => '0x' + char.charCodeAt(0).toString(16).toUpperCase()).join(' ');
+    const input = document.getElementById('neural-input');
+    const log = document.getElementById('comms-log');
+    const btn = document.getElementById('broadcast-btn');
+
+    function encode(text) {
+        return text.split('').map(c => '0x' + c.charCodeAt(0).toString(16).toUpperCase()).join(' ');
     }
 
-    function processSignal() {
-        const input = document.getElementById('neural-input');
-        const log = document.getElementById('comms-log');
+    function transmit() {
         if (!input.value.trim()) return;
-
-        const rawLogic = encodeToAndroidSpeak(input.value);
-        const humanTranslation = input.value.toUpperCase();
-
-        const entry = document.createElement('div');
-        entry.className = 'transmission';
-        entry.innerHTML = `
-            <div class="raw-data">[${rawLogic}]</div>
-            <div class="translated">${humanTranslation}</div>
-        `;
-
-        log.prepend(entry);
+        const raw = encode(input.value);
+        const trans = input.value.toUpperCase();
+        const div = document.createElement('div');
+        div.className = 'transmission';
+        div.innerHTML = `<div class="raw-data">[${raw}]</div><div class="translated">${trans}</div>`;
+        log.prepend(div);
         input.value = '';
-        
-        // Save to the local node history
-        const history = JSON.parse(localStorage.getItem('neural_history') || '[]');
-        history.unshift({raw: rawLogic, trans: humanTranslation});
-        localStorage.setItem('neural_history', JSON.stringify(history.slice(0, 20)));
     }
 
-    window.onload = () => {
-        const history = JSON.parse(localStorage.getItem('neural_history') || '[]');
-        history.forEach(h => {
-            const entry = document.createElement('div');
-            entry.className = 'transmission';
-            entry.innerHTML = `<div class="raw-data">[${h.raw}]</div><div class="translated">${h.trans}</div>`;
-            document.getElementById('comms-log').appendChild(entry);
-        });
-    };
+    btn.addEventListener('click', transmit);
 </script>
-
 </body>
 </html>
