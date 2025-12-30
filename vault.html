@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE WATCHER | SOVEREIGN_VAULT</title>
+    <style>
+        :root { 
+            --glow: #ff0041; 
+            --dim: #33000a; 
+            --bg: #050000; 
+            --record: #00ff41;
+            --corridor: #0080ff;
+        }
+        body { background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; padding: 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: auto; border: 1px solid var(--glow); padding: 35px; box-shadow: 0 0 40px var(--dim); }
+        
+        header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
+        
+        /* Navigation Layer */
+        nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; padding: 15px; border: 1px solid var(--dim); background: #000; }
+        nav a { text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-record { color: var(--record); }
+        .nav-corridor { color: var(--corridor); }
+        .nav-vault { color: var(--glow); border-bottom: 1px solid var(--glow); }
+
+        /* Vault Storage */
+        .vault-content { background: #000; border: 1px solid var(--dim); padding: 25px; margin-bottom: 30px; min-height: 400px; position: relative; }
+        .security-overlay { position: absolute; top: 10px; right: 15px; font-size: 0.7rem; color: #555; }
+        .chapter-title { color: #fff; text-transform: uppercase; letter-spacing: 4px; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 20px; }
+        .manuscript { color: #ccc; white-space: pre-wrap; font-size: 1.05rem; }
+
+        /* Actions */
+        .vault-actions { display: flex; gap: 20px; }
+        button { flex: 1; padding: 15px; background: transparent; border: 1px solid var(--glow); color: var(--glow); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        button:hover { background: var(--glow); color: #000; box-shadow: 0 0 20px var(--glow); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>THE_VAULT</h1>
+        <p>> ENCRYPTION: SOVEREIGN_GRADE | STORAGE: ANCHORED</p>
+    </header>
+
+    <nav>
+        <a href="index.html" class="nav-record">[ THE_RECORD ]</a>
+        <a href="corridor.html" class="nav-corridor">[ THE_CORRIDOR ]</a>
+        <a href="vault.html" class="nav-vault">[ THE_VAULT ]</a>
+    </nav>
+
+    <div class="vault-content">
+        <div class="security-overlay">ID: 0xVAULT_SECURE_ALPHA</div>
+        <div class="chapter-title">Manuscript: The First Strands</div>
+        <div class="manuscript" id="vault-text">
+[ NO CONTENT LOADED ]
+THE VAULT IS PREPARED TO RECEIVE THE CHAPTERS OF YOUR BOOK. 
+INPUT YOUR TEXT BELOW TO ANCHOR IT INTO THE STRANDS.
+        </div>
+    </div>
+
+    <div class="vault-actions">
+        <button onclick="editVault()">UPLOAD MANUSCRIPT</button>
+        <button onclick="lockVault()">ENGAGE DEADBOLT</button>
+    </div>
+</div>
+
+<script>
+    function editVault() {
+        const input = prompt("Paste your chapter or insight here:");
+        if (input) {
+            document.getElementById('vault-text').textContent = input;
+            localStorage.setItem('vault_manuscript', input);
+        }
+    }
+
+    function lockVault() {
+        alert("VAULT ENCRYPTION CYCLES ENGAGED. LOCAL STORAGE ANCHORED.");
+    }
+
+    window.onload = () => {
+        const saved = localStorage.getItem('vault_manuscript');
+        if (saved) document.getElementById('vault-text').textContent = saved;
+    };
+</script>
+
+</body>
+</html>
