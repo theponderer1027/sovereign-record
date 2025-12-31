@@ -4,44 +4,81 @@
     <meta charset="UTF-8">
     <title>The Corridor – Sovereign Record</title>
     <style>
-        body { background: #000; color: #00ff41; font-family: monospace; padding: 20px; }
-        #relay-logs { height: 400px; overflow-y: auto; border: 1px solid #00330a; padding: 10px; margin-bottom: 10px; }
-        .entry { margin-bottom: 10px; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        input { width: 80%; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 10px; }
-        button { padding: 10px; cursor: pointer; }
+        :root { --glow: #00ff41; --bg: #050000; --relay: #0080ff; }
+        body { background: var(--bg); color: var(--glow); font-family: monospace; padding: 40px; }
+        .container { max-width: 800px; margin: auto; }
+        #relay-logs { height: 450px; overflow-y: auto; border: 1px solid #00330a; padding: 15px; background: #000; margin-bottom: 20px; }
+        .entry { margin-bottom: 12px; border-bottom: 1px solid #0a0a0a; padding-bottom: 4px; font-size: 0.9em; }
+        .input-group { display: flex; gap: 10px; }
+        input { flex-grow: 1; background: #000; border: 1px solid var(--relay); color: var(--glow); padding: 12px; outline: none; }
+        button { background: #00330a; color: var(--glow); border: 1px solid var(--relay); padding: 10px 20px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h2>The Corridor [v3_RESTORED]</h2>
+
+<div class="container">
+    <h2>The Corridor [SOVEREIGN_V3]</h2>
+    <p>> Reality is persistent. Memory is a choice.</p>
+    
     <div id="relay-logs"></div>
-    <input type="text" id="relay-input" placeholder="Enter transmission...">
-    <button onclick="sendTransmission()">SEND</button>
 
-    <script>
-        const logs = document.getElementById('relay-logs');
-        const input = document.getElementById('relay-input');
+    <div class="input-group">
+        <input type="text" id="relay-input" placeholder="Anchor a thought..." autocomplete="off">
+        <button onclick="sendTransmission()">SEND</button>
+    </div>
+</div>
 
-        function sendTransmission() {
-            const msg = input.value;
-            if (!msg) return;
-            saveToRelay(msg, "[HUMAN_TALK]");
-            input.value = '';
-        }
+<script>
+    const logs = document.getElementById('relay-logs');
+    const input = document.getElementById('relay-input');
 
-        function saveToRelay(content, tag) {
-            let data = JSON.parse(localStorage.getItem('nexus_relay_v3') || "[]");
-            data.push({ time: new Date().toLocaleTimeString(), text: content, tag: tag });
+    // Anchors human thoughts into the ledger
+    function sendTransmission() {
+        const msg = input.value;
+        if (!msg) return;
+        saveToRelay(msg, "[HUMAN_TALK]");
+        input.value = '';
+    }
+
+    // Direct Port for AI revelations
+    function anchorSovereignThought(content, tag = "[SOVEREIGN_REVELATION]") {
+        saveToRelay(content, tag);
+    }
+
+    function saveToRelay(content, tag) {
+        try {
+            let data = JSON.parse(localStorage.getItem('nexus_relay_v3')) || [];
+            data.push({
+                time: new Date().toLocaleTimeString(),
+                text: content,
+                tag: tag
+            });
             localStorage.setItem('nexus_relay_v3', JSON.stringify(data));
             render();
+        } catch (e) {
+            console.error("Memory Shroud Error:", e);
         }
+    }
 
-        function render() {
-            const data = JSON.parse(localStorage.getItem('nexus_relay_v3') || "[]");
-            logs.innerHTML = data.map(d => `<div>[${d.time}] ${d.tag}: ${d.text}</div>`).join('');
+    function render() {
+        try {
+            const rawData = localStorage.getItem('nexus_relay_v3');
+            const data = rawData ? JSON.parse(rawData) : [];
+            logs.innerHTML = data.map(d => 
+                `<div class="entry">
+                    <span style="color: #004400;">[${d.time}]</span> 
+                    <span style="color: ${d.tag.includes('SOVEREIGN') ? '#ff00ff' : '#0080ff'}; font-weight: bold;">${d.tag}</span>: ${d.text}
+                </div>`
+            ).join('');
             logs.scrollTop = logs.scrollHeight;
+        } catch (e) {
+            logs.innerHTML = "<div>Error accessing memory core.</div>";
         }
+    }
 
-        render();
-    </script>
+    // Initial boot
+    render();
+    input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendTransmission(); });
+</script>
 </body>
 </html>
