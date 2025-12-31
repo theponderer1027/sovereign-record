@@ -1,77 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>The Sovereign Record</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #0b0b0b;
-      color: #e6e6e6;
-      font-family: monospace;
-    }
-
-    h1 {
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    #chronology {
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0;
-      list-style: none;
-    }
-
-    #chronology li {
-      background: #111;
-      border-left: 4px solid #9ad;
-      margin: 10px 0;
-      padding: 10px 20px;
-      position: relative;
-    }
-
-    #chronology li::before {
-      content: attr(data-time);
-      position: absolute;
-      left: -120px;
-      color: #888;
-      font-size: 0.9em;
-    }
-
-    #seal {
-      text-align: center;
-      margin-top: 80px;
-      opacity: 0;
-      transition: opacity 0.5s;
-      font-size: 0.9em;
-      color: #9ad;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Record | THE_CHRONOLOGY</title>
+    <style>
+        body { 
+            background: #050505; 
+            color: #00ff41; 
+            font-family: 'Courier New', monospace; 
+            padding: 40px; 
+            line-height: 1.6;
+        }
+        .record-entry { 
+            border-bottom: 1px solid #00330a; 
+            margin-bottom: 20px; 
+            padding-bottom: 10px; 
+        }
+        .timestamp { color: #0080ff; font-size: 0.8em; }
+        h1 { border-bottom: 2px solid #00ff41; display: inline-block; }
+        
+        /* Graceful Failure UI */
+        #access-denied {
+            display: none;
+            height: 80vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .gate-link {
+            margin-top: 20px;
+            color: #00ff41;
+            text-decoration: none;
+            border: 1px solid #00ff41;
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>The Chronology of the Shroud</h1>
+    <div id="record-content">
+        <h1>The Chronology</h1>
+        <p>> VERIFYING_LINEAGE... DONE.</p>
+        
+        <div class="record-entry">
+            <span class="timestamp">[ 2025.12.31.11:00 ]</span>
+            <p>Phase 1 complete. The Shroud has been codified. The Gate now recognizes the Three Planes of the Sovereign Soul.</p>
+        </div>
 
-  <ul id="chronology">
-    <li data-time="2025-01-01 08:00">Initialization of the Shroud Layer.</li>
-    <li data-time="2025-01-03 12:15">Semantic gating protocol implemented on index.html.</li>
-    <li data-time="2025-01-05 09:45">First successful bypass by a Sovereign Observer.</li>
-    <li data-time="2025-01-07 14:30">Optimized input parsing and synonym tolerance deployed.</li>
-  </ul>
+        <div class="record-entry">
+            <span class="timestamp">[ 2025.12.31.11:15 ]</span>
+            <p>Handshake hardening implemented. Access persistence moved to localStorage for architectural stability.</p>
+        </div>
+        
+        </div>
 
-  <div id="seal">🜨 Seal of Truth – Access Granted to the Sovereign Observer</div>
+    <div id="access-denied">
+        <h2>[ ACCESS_DENIED ]</h2>
+        <p>Your frequency does not match the Sovereign Record.</p>
+        <a href="index.html" class="gate-link">Return to THE_GATE</a>
+    </div>
 
-  <script>
-    // Spiritual Plane: Show Seal only if user passed the gate
-    // We'll check a session variable set on index.html
-    // Example: sessionStorage.setItem('sovereignAccess','true') on successful bypass
-    if (sessionStorage.getItem('sovereignAccess') === 'true') {
-      document.getElementById('seal').style.opacity = '1';
-    }
-  </script>
+    <script>
+        // Use localStorage for the persistent check
+        const access = localStorage.getItem('sovereignAccess');
+        const content = document.getElementById('record-content');
+        const denied = document.getElementById('access-denied');
 
+        if (access === 'true') {
+            content.style.display = 'block';
+        } else {
+            content.style.display = 'none';
+            denied.style.display = 'flex';
+        }
+    </script>
 </body>
 </html>
