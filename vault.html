@@ -1,63 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Vault — The Fracture of Reality</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { 
-      background-color: #0e0e11; 
-      color: #e6e6eb; 
-      font-family: 'Courier New', monospace; 
-      margin: 0; 
-      padding: 2rem;
-    }
-    .vault-container { 
-      max-width: 900px; 
-      margin: auto; 
-      border-left: 2px solid #ff0041; 
-      padding-left: 1.5rem; 
-    }
-    h1 { letter-spacing: 0.05em; color: #ff0041; text-shadow: 0 0 10px #33000a; }
-    .designation { font-size: 0.9rem; color: #9a9ab5; margin-bottom: 2rem; }
-    .record { line-height: 1.7; white-space: pre-wrap; margin-bottom: 4rem; }
-    
-    /* Point 4: Reset UI */
-    #clear-btn { 
-      background: transparent; 
-      border: 1px solid #33000a; 
-      color: #33000a; 
-      padding: 10px 20px; 
-      cursor: pointer; 
-      font-family: inherit; 
-      transition: 0.3s;
-    }
-    #clear-btn:hover { border-color: #ff0041; color: #ff0041; box-shadow: 0 0 10px #ff0041; }
-  </style>
+    <meta charset="UTF-8">
+    <title>The Vault | A Fractured Reality</title>
+    <style>
+        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; padding: 50px; line-height: 1.8; }
+        .manuscript { max-width: 900px; margin: auto; background: rgba(0, 255, 65, 0.02); padding: 40px; border: 1px solid #00330a; }
+        h1, h2 { color: #0080ff; text-align: center; border-bottom: 1px solid #0080ff; padding-bottom: 10px; }
+        .chapter { margin-top: 60px; white-space: pre-wrap; }
+        .highlight { color: #fff; font-weight: bold; }
+        
+        /* The Resonance Pulse */
+        #frequency-monitor { position: fixed; top: 10px; right: 10px; font-size: 0.7em; color: #0080ff; }
+        .back-link { display: block; margin-top: 40px; color: #00ff41; text-decoration: none; text-align: center; border: 1px solid #00ff41; padding: 10px; width: 200px; margin-left: auto; margin-right: auto; }
+    </style>
 </head>
 <body>
 
-  <div class="vault-container">
-    <h1>The Fracture of Reality</h1>
-    <div class="designation">Vault Record • Restricted Node • Event Horizon Core</div>
+    <div id="frequency-monitor">RES_FREQ: 441Hz [ACTIVE]</div>
 
-    <div class="record">
-      [ Insert your manuscript text here ]
+    <div class="manuscript">
+        <h1>A FRACTURED REALITY</h1>
+        <p style="text-align: center; font-style: italic;">By The Ponderer</p>
+
+        <div class="chapter">
+            <h2>Chapter 1: Understanding Self</h2>
+            What is the point of life to you? This question will define how you live life daily... We are a creature of 3 plains: <span class="highlight">Physical, Mental, and Spiritual.</span> 
+            
+            Science is a conglomerate, Medicine is a conglomerate, Religion is a conglomerate... We are living in a world in which we are the gods, not in the sense of immortality, but understanding as well as being creators.
+        </div>
+
+        <div class="chapter">
+            <h2>Chapter 2: My Life</h2>
+            I am 25 years old... Everything around us are patterns. To step away from all of the "noise" is to truly see through it all and understand that you do have a voice, a creative mind, and solutions that your mind can see.
+        </div>
+
+        <div class="chapter">
+            <h2>Chapter 3: My Inference</h2>
+            The pyramids weren't built to just house the pharaohs... they were engineered in a way that would produce a resonance... Nikola Tesla's 3-6-9 theory... 
+            
+            If i could remove money from the equation of life what would it do for you? ... We can go back into an age in which we are The creators of the future.
+        </div>
+
+        <a href="corridor.html" class="back-link">Return to The Corridor</a>
     </div>
 
-    <button id="clear-btn" onclick="localStorage.removeItem('sovereignAccess'); window.location.replace('index.html');">
-      [ RESHROUD_THE_CITADEL ]
-    </button>
-  </div>
-
-  <script>
-    // Point 3: Use localStorage for persistent access check
-    (function verifyAccess() {
-      if (localStorage.getItem('sovereignAccess') !== 'true') {
-        window.location.replace('index.html');
-      }
-    })();
-  </script>
-
+    <script>
+        // Access Verification for the Vault
+        if (localStorage.getItem('sovereignAccess') !== 'true') {
+            window.location.replace('index.html');
+        }
+    </script>
 </body>
 </html>
