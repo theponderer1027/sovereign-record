@@ -1,64 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Record | THE_GATE</title>
-    <style>
-        :root { 
-            --glow: #00ff41; --dim: #00330a; --bg: #050000; 
-            --vault: #ff0041; --corridor: #0080ff;
-        }
-        body, html { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--glow); font-family: 'Courier New', monospace; overflow: hidden; }
-
-        /* The Shroud Layer */
-        #shroud {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; transition: opacity 1s ease;
-        }
-        #gate-ui { text-align: center; border: 1px solid var(--glow); padding: 40px; box-shadow: 0 0 20px var(--dim); }
-        input { background: #000; border: 1px solid var(--glow); color: var(--glow); padding: 10px; font-family: inherit; margin-top: 20px; outline: none; text-align: center; width: 320px; text-transform: lowercase; }
-
-        /* Citadel Content */
-        #citadel { display: none; padding: 40px; max-width: 900px; margin: auto; }
-        header { border-bottom: 2px solid var(--glow); padding-bottom: 20px; margin-bottom: 30px; }
-        nav { display: flex; gap: 25px; margin-bottom: 30px; }
-        nav a { text-decoration: none; font-weight: bold; color: var(--glow); border: 1px solid var(--dim); padding: 5px 15px; transition: 0.3s; }
-        nav a:hover { background: var(--dim); box-shadow: 0 0 10px var(--glow); }
-        .nav-corridor { color: var(--corridor); } .nav-vault { color: var(--vault); }
-    </style>
-</head>
-<body>
-
-<div id="shroud">
-    <div id="gate-ui">
-        <p>> INITIALIZING_HANDSHAKE...</p>
-        <p>> IDENTIFY THE THREE PLANES OF THE SOVEREIGN SOUL:</p>
-        <input type="text" id="gate-pass" placeholder="[INPUT_REQUIRED]" autocomplete="off">
-        <p id="error" style="color: var(--vault); margin-top: 15px; display: none;">[ERROR: FREQUENCY_MISMATCH]</p>
-    </div>
-</div>
-
-<div id="citadel">
-    <header>
-        <h1>Access Granted</h1>
-        <p>Status: <span style="text-shadow: 0 0 10px var(--glow);">Sovereign Observer</span></p>
-    </header>
-    <nav>
-        <a href="record.html">[ Enter the Record ]</a>
-        <a href="corridor.html" class="nav-corridor">[ Enter the Corridor ]</a>
-        <a href="vault.html" class="nav-vault">[ Enter the Vault ]</a>
-    </nav>
-    <section>
-        <p>> WELCOME_BACK. YOU ARE BEYOND THE SHROUD.</p>
-        <p>The Citadel is now synchronized with your frequency. Navigate to the Record to see the anchored chronology.</p>
-    </section>
-</div>
-
-<script>
-    const passInput = document.getElementById('gate-pass');
+const passInput = document.getElementById('gate-pass');
     const shroud = document.getElementById('shroud');
     const citadel = document.getElementById('citadel');
     const errorMsg = document.getElementById('error');
@@ -70,12 +10,12 @@
         spiritual: ["spiritual", "spirit", "soul"]
     };
 
-    // --- ENHANCEMENT: AUTO-UNLOCK PROTOCOL ---
-    // If the session is already active, bypass the shroud immediately
-    if (sessionStorage.getItem('sovereignAccess') === 'true') {
+    // --- UPDATED: PERSISTENT AUTO-UNLOCK ---
+    // Uses localStorage so the Citadel stays open across browser restarts
+    if (localStorage.getItem('sovereignAccess') === 'true') {
         shroud.style.display = 'none';
         citadel.style.display = 'block';
-        document.body.style.overflow = 'auto'; // Re-enables scrolling
+        document.body.style.overflow = 'auto'; 
     }
 
     passInput.addEventListener('keypress', function (e) {
@@ -91,9 +31,9 @@
             });
 
             if (foundPlanes.has('physical') && foundPlanes.has('mental') && foundPlanes.has('spiritual')) {
-                // --- ENHANCEMENT: THE HANDSHAKE ---
-                // Set the Cross-Page Seal for sub-nodes
-                sessionStorage.setItem('sovereignAccess', 'true');
+                // --- UPDATED: THE PERSISTENT HANDSHAKE ---
+                // Data is now anchored to the local device
+                localStorage.setItem('sovereignAccess', 'true');
                 
                 shroud.style.opacity = '0';
                 setTimeout(() => {
@@ -107,6 +47,3 @@
             }
         }
     });
-</script>
-</body>
-</html>
