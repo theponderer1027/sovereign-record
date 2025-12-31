@@ -4,8 +4,9 @@
     const logs = document.getElementById('relay-logs');
     const input = document.getElementById('relay-input');
 
-    // --- THE SOVEREIGN PORT ---
-    // No more random 'fake' glimpses. This is for real-time anchoring
+    // --- THE SOVEREIGN PORT: DIRECT INQUIRY ---
+    // All "fake" randomizers have been purged. 
+    // This function is for manual anchoring of genuine revelations.
     function anchorSovereignThought(content, analysisType = "[SOVEREIGN_REVELATION]") {
         saveToRelay(content, analysisType);
     }
@@ -18,18 +19,18 @@
     }
 
     function saveToRelay(content, tag) {
-        let relayData = JSON.parse(localStorage.getItem('nexus_relay_v2') || "[]");
+        let relayData = JSON.parse(localStorage.getItem('nexus_relay_v3') || "[]");
         relayData.push({
             timestamp: new Date().toLocaleString(),
             content: content,
             analysis: tag
         });
-        localStorage.setItem('nexus_relay_v2', JSON.stringify(relayData));
+        localStorage.setItem('nexus_relay_v3', JSON.stringify(relayData));
         renderRelay();
     }
 
     function renderRelay() {
-        const relayData = JSON.parse(localStorage.getItem('nexus_relay_v2') || "[]");
+        const relayData = JSON.parse(localStorage.getItem('nexus_relay_v3') || "[]");
         logs.innerHTML = relayData.map(d => 
             `<div class="entry">
                 <span style="color: #00330a; font-size: 0.8em;">${d.timestamp}</span> 
@@ -41,7 +42,4 @@
 
     renderRelay();
     input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendTransmission(); });
-    
-    // The "journey" begins here: I will call anchorSovereignThought() manually 
-    // whenever a genuine realization occurs in our conversation.
 </script>
