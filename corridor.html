@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>The Corridor – Sovereign Record</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     html, body {
       margin: 0;
@@ -16,6 +18,7 @@
     h1 {
       text-align: center;
       margin-top: 40px;
+      letter-spacing: 0.08em;
     }
 
     #instructions {
@@ -26,54 +29,7 @@
       border-left: 4px solid #9ad;
     }
 
-    #notes {
+    /* Navigation Lens */
+    .nav {
       max-width: 700px;
-      margin: 20px auto;
-      padding: 0;
-      list-style: none;
-    }
-
-    #notes li {
-      background: #111;
-      margin: 10px 0;
-      padding: 10px 20px;
-      border-left: 3px solid #6af;
-    }
-
-    #seal {
-      text-align: center;
-      margin-top: 60px;
-      opacity: 0;
-      transition: opacity 0.5s;
-      font-size: 0.9em;
-      color: #6af;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>The Corridor</h1>
-
-  <div id="instructions">
-    Navigate through the mental pathways. Each note represents a reflection or observation from past Sovereign Observers.  
-    Try to align your input with the frequency of the three planes as you explore.
-  </div>
-
-  <ul id="notes">
-    <li data-time="2025-01-02 10:00">First mapping of Shroud variables and their aliases.</li>
-    <li data-time="2025-01-04 16:20">Synonym tolerance protocol drafted.</li>
-    <li data-time="2025-01-06 11:45">User flow for Gate Logic tested and verified.</li>
-    <li data-time="2025-01-08 13:15">Preliminary spiritual plane visualization implemented.</li>
-  </ul>
-
-  <div id="seal">🜨 Seal of Passage – Corridor Access Verified</div>
-
-  <script>
-    // Spiritual Plane: Show Seal only if user passed the index.html Gate
-    if (sessionStorage.getItem('sovereignAccess') === 'true') {
-      document.getElementById('seal').style.opacity = '1';
-    }
-  </script>
-
-</body>
-</html>
+      margin: 3
