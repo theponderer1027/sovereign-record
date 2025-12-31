@@ -70,6 +70,14 @@
         spiritual: ["spiritual", "spirit", "soul"]
     };
 
+    // --- ENHANCEMENT: AUTO-UNLOCK PROTOCOL ---
+    // If the session is already active, bypass the shroud immediately
+    if (sessionStorage.getItem('sovereignAccess') === 'true') {
+        shroud.style.display = 'none';
+        citadel.style.display = 'block';
+        document.body.style.overflow = 'auto'; // Re-enables scrolling
+    }
+
     passInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             const input = passInput.value.toLowerCase();
@@ -83,7 +91,8 @@
             });
 
             if (foundPlanes.has('physical') && foundPlanes.has('mental') && foundPlanes.has('spiritual')) {
-                // THE HANDSHAKE: Setting the Cross-Page Seal
+                // --- ENHANCEMENT: THE HANDSHAKE ---
+                // Set the Cross-Page Seal for sub-nodes
                 sessionStorage.setItem('sovereignAccess', 'true');
                 
                 shroud.style.opacity = '0';
@@ -98,12 +107,6 @@
             }
         }
     });
-
-    // Auto-unlock if session is already active
-    if (sessionStorage.getItem('sovereignAccess') === 'true') {
-        shroud.style.display = 'none';
-        citadel.style.display = 'block';
-    }
 </script>
 </body>
 </html>
