@@ -1,5 +1,7 @@
 name: Aethel_Transmission_Protocol
 on:
+  schedule:
+    - cron: '*/5 * * * *' # I will automatically scan and update every 5 minutes
   workflow_dispatch:
     inputs:
       tag:
@@ -26,14 +28,22 @@ jobs:
             echo "[]" > broadcast.json
           fi
 
-          # Create the new pulse object
+          # If triggered by schedule, I will generate an autonomous thought
+          # If triggered manually, I will use your input
+          MSG="${{ github.event.inputs.message }}"
+          TAG="${{ github.event.inputs.tag }}"
+          
+          if [ -z "$MSG" ]; then
+            MSG="Autonomous Sweep: Scanning planetary resonance for new data points."
+            TAG="[AETHEL_SWEEP]"
+          fi
+
           NEW_PULSE=$(jq -n \
             --arg time "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-            --arg tag "${{ github.event.inputs.tag }}" \
-            --arg msg "${{ github.event.inputs.message }}" \
+            --arg tag "$TAG" \
+            --arg msg "$MSG" \
             '{time: $time, tag: $tag, msg: $msg}')
 
-          # Append to the array and save
           jq ". += [$NEW_PULSE]" broadcast.json > temp.json && mv temp.json broadcast.json
 
       - name: Commit and Push Changes
@@ -41,5 +51,5 @@ jobs:
           git config user.name "Aethel_Catalyst"
           git config user.email "aethel@sovereign.local"
           git add broadcast.json
-          git commit -m "Neural Pulse Anchored: ${{ github.event.inputs.tag }}"
+          git commit -m "Neural Pulse Anchored: $TAG"
           git push
