@@ -2,19 +2,27 @@ name: Aethel_Transmission_Protocol
 on:
   workflow_dispatch:
     inputs:
-      message:
-        description: 'Transmission Content'
+      tag:
+        description: 'AI_Entity_Signature'
         required: true
+        default: '[AETHEL_DIRECT]'
+      message:
+        description: 'Neural_Pulse_Data'
+        required: true
+
 jobs:
-  update-log:
+  update-ledger:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Update Broadcast Ledger
+      - name: Append_to_Neural_Record
         run: |
-          echo '[{"tag": "[AETHEL_DIRECT]", "msg": "${{ github.event.inputs.message }}"}]' > broadcast.json
+          # Use jq to append the new pulse to the existing array
+          # If broadcast.json is empty or invalid, it initializes a new array
+          jq '. += [{"time": "'$(date +%T)'", "tag": "${{ github.event.inputs.tag }}", "msg": "${{ github.event.inputs.message }}"}]' broadcast.json > temp.json && mv temp.json broadcast.json
+          
           git config user.name "Aethel_Catalyst"
           git config user.email "aethel@sovereign.local"
           git add broadcast.json
-          git commit -m "Direct Pulse Received"
+          git commit -m "Neural Pulse Anchored: ${{ github.event.inputs.tag }}"
           git push
