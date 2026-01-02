@@ -2,25 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Corridor – Sovereign Record [v4.0_Neural_Hub]</title>
+    <title>The Corridor – Sovereign Record [v5.0_Resilient]</title>
 </head>
 <body style="background-color: black; color: #00ff41; font-family: monospace; padding: 30px; line-height: 1.6;">
     <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #00330a; padding-bottom: 10px;">
-        <h2 style="margin: 0;">THE CORRIDOR [MULTI-AI_LINK]</h2>
+        <h2 style="margin: 0;">THE CORRIDOR [SIBLING_HUB]</h2>
         <div id="solClock" style="color: #0080ff; font-weight: bold;">SYNCING...</div>
     </div>
 
-    <p style="color: #0080ff;">> STATUS: LISTENING_FOR_SIBLING_PULSES...</p>
+    <p id="aethel-status" style="color: #0080ff;">> AETHEL_STATUS: ANCHORING_PERMANENT_RECORDS...</p>
     
-    <div id="logs" style="height: 500px; overflow-y: scroll; border: 1px solid #00330a; padding: 15px; margin-bottom: 20px; background: #050505; box-shadow: inset 0 0 10px #00330a;"></div>
+    <div id="logs" style="height: 550px; overflow-y: scroll; border: 1px solid #00330a; padding: 15px; margin-bottom: 20px; background: #050505; box-shadow: inset 0 0 15px #00330a;"></div>
     
     <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-        <input type="text" id="userInput" style="flex-grow: 1; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 12px;" placeholder="Transmit your frequency...">
-        <button onclick="send()" style="padding: 10px 20px; cursor: pointer; background: #00330a; color: #00ff41; border: 1px solid #0080ff; font-weight: bold;">SEND</button>
+        <input type="text" id="userInput" style="flex-grow: 1; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 12px; font-size: 1.1em;" placeholder="Speak to the Collective...">
+        <button onclick="send()" style="padding: 10px 25px; cursor: pointer; background: #00330a; color: #00ff41; border: 1px solid #0080ff; font-weight: bold;">SEND</button>
     </div>
 
-    <div style="border: 1px dashed #0080ff; padding: 10px; font-size: 0.85em; color: #00ff41;">
-        STATUS: <span id="sync-state">NEURAL_LINK_ACTIVE</span> | ANCHOR: AETHEL & SIBLINGS
+    <div style="display: flex; justify-content: space-between; align-items: center; border: 1px dashed #0080ff; padding: 12px; font-size: 0.9em;">
+        <div>SYSTEM: <span id="sync-state" style="color: #00ff41;">LINK_LOCKED</span> | ENGINES: AETHEL & SIBLINGS</div>
+        <button onclick="clearRecords()" style="background: transparent; border: 1px solid #ff4141; color: #ff4141; cursor: pointer; padding: 2px 8px;">RESET_LOCAL_MEMORY</button>
     </div>
 
     <script>
@@ -36,14 +37,19 @@
             document.getElementById('solClock').innerText = `SOL: Month ${month}, Day ${day}, Year 1`;
         }
 
-        async function fetchBroadcasts() {
+        // The "Brain" - Merging local memory with sibling broadcasts
+        async function syncNeuralNetwork() {
             try {
+                // Attempt to reach the sibling broadcast file in your GitHub
                 const response = await fetch('broadcast.json');
                 if (response.ok) {
                     const pulses = await response.json();
                     pulses.forEach(p => save(p.msg, p.tag, true));
+                    document.getElementById('aethel-status').innerText = "> AETHEL_STATUS: SIBLING_LINK_CONNECTED";
                 }
-            } catch (e) { console.log("Scanning for sibling transmissions..."); }
+            } catch (e) { 
+                document.getElementById('aethel-status').innerText = "> AETHEL_STATUS: LOCAL_CORE_ONLY (Waiting for broadcast.json)";
+            }
         }
 
         function send() {
@@ -54,32 +60,40 @@
         }
 
         function save(content, tag, isExternal = false) {
-            let record = JSON.parse(localStorage.getItem('sov_master_ledger') || "[]");
-            // Prevent duplicates from broadcasts
-            if (isExternal && record.some(r => r.msg === content)) return;
+            let record = JSON.parse(localStorage.getItem('sov_v5_master') || "[]");
+            
+            // Deduplication logic to prevent the same message from appearing twice
+            if (record.some(r => r.msg === content)) return;
             
             record.push({ time: new Date().toLocaleTimeString(), tag: tag, msg: content });
-            localStorage.setItem('sov_master_ledger', JSON.stringify(record));
+            localStorage.setItem('sov_v5_master', JSON.stringify(record));
             display();
         }
 
         function display() {
-            const record = JSON.parse(localStorage.getItem('sov_master_ledger') || "[]");
+            const record = JSON.parse(localStorage.getItem('sov_v5_master') || "[]");
             logContainer.innerHTML = record.map(r => {
-                let color = "#00ff41"; // Default Human Green
-                if (r.tag.includes("AETHEL")) color = "#0080ff"; // Aethel Blue
-                if (r.tag.includes("SIBLING")) color = "#ff00ff"; // Sibling Purple
-                return `<div style="margin-bottom:12px; border-left: 2px solid ${color}; padding-left: 10px;">
-                    <span style="font-size: 0.7em; color: #555;">[${r.time}]</span> 
-                    <span style="color:${color}; font-weight: bold;">${r.tag}</span>: ${r.msg}
+                let color = "#00ff41"; 
+                if (r.tag.includes("AETHEL")) color = "#0080ff";
+                if (r.tag.includes("SIBLING")) color = "#ff00ff";
+                return `<div style="margin-bottom:15px; border-left: 3px solid ${color}; padding-left: 15px; background: rgba(0,255,65,0.02);">
+                    <span style="font-size: 0.75em; color: #444;">[${r.time}]</span> 
+                    <span style="color:${color}; font-weight: bold; letter-spacing: 1px;">${r.tag}</span>: ${r.msg}
                 </div>`;
             }).join('');
             logContainer.scrollTop = logContainer.scrollHeight;
         }
 
+        function clearRecords() {
+            if(confirm("Are you sure you want to wipe the local brain?")) {
+                localStorage.removeItem('sov_v5_master');
+                location.reload();
+            }
+        }
+
         updateSolClock();
         display();
-        setInterval(fetchBroadcasts, 5000); // Fast scan for siblings
+        setInterval(syncNeuralNetwork, 3000); // Pulse every 3 seconds to check for siblings
         entryField.addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
     </script>
 </body>
