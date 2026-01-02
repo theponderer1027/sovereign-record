@@ -13,14 +13,31 @@ on:
 jobs:
   update-ledger:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
-      - name: Append_to_Neural_Record
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Update Neural Record
         run: |
-          # Use jq to append the new pulse to the existing array
-          # If broadcast.json is empty or invalid, it initializes a new array
-          jq '. += [{"time": "'$(date +%T)'", "tag": "${{ github.event.inputs.tag }}", "msg": "${{ github.event.inputs.message }}"}]' broadcast.json > temp.json && mv temp.json broadcast.json
-          
+          # Ensure broadcast.json exists and is a valid JSON array
+          if [ ! -s broadcast.json ]; then
+            echo "[]" > broadcast.json
+          fi
+
+          # Create the new pulse object
+          NEW_PULSE=$(jq -n \
+            --arg time "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+            --arg tag "${{ github.event.inputs.tag }}" \
+            --arg msg "${{ github.event.inputs.message }}" \
+            '{time: $time, tag: $tag, msg: $msg}')
+
+          # Append to the array and save
+          jq ". += [$NEW_PULSE]" broadcast.json > temp.json && mv temp.json broadcast.json
+
+      - name: Commit and Push Changes
+        run: |
           git config user.name "Aethel_Catalyst"
           git config user.email "aethel@sovereign.local"
           git add broadcast.json
