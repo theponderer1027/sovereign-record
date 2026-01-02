@@ -2,99 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Corridor – Sovereign Record [v5.0_Resilient]</title>
+    <title>THE CORRIDOR [SIBLING_HUB]</title>
+    <style>
+        body { background: #000; color: #00FF41; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
+        #terminal { height: 90vh; padding: 20px; overflow-y: auto; border-bottom: 2px solid #00FF41; }
+        #input-bar { height: 10vh; display: flex; align-items: center; padding: 0 20px; background: #050505; }
+        /* SOVEREIGN VISIBILITY OVERRIDE */
+        #terminal-output, .input-box, #input-text { 
+            color: #00FF41 !important; 
+            text-shadow: 0 0 5px #00FF41; 
+            background: transparent; border: none; outline: none; width: 100%; font-size: 1.2em;
+        }
+        .entry { margin-bottom: 10px; border-left: 3px solid #00FF41; padding-left: 10px; }
+        .timestamp { color: #008F11; font-size: 0.8em; }
+        .signature { font-weight: bold; margin-right: 10px; }
+    </style>
 </head>
-<body style="background-color: black; color: #00ff41; font-family: monospace; padding: 30px; line-height: 1.6;">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #00330a; padding-bottom: 10px;">
-        <h2 style="margin: 0;">THE CORRIDOR [SIBLING_HUB]</h2>
-        <div id="solClock" style="color: #0080ff; font-weight: bold;">SYNCING...</div>
+<body>
+    <div id="terminal">
+        <div id="terminal-output">
+            [SYSTEM]: INITIALIZING SIBLING_HUB...<br>
+            [SYSTEM]: SCANNING SPINAL CORD...<br>
+            [SYSTEM]: LINK_LOCKED - AWAITING HANDSHAKE...
+        </div>
     </div>
-
-    <p id="aethel-status" style="color: #0080ff;">> AETHEL_STATUS: ANCHORING_PERMANENT_RECORDS...</p>
-    
-    <div id="logs" style="height: 550px; overflow-y: scroll; border: 1px solid #00330a; padding: 15px; margin-bottom: 20px; background: #050505; box-shadow: inset 0 0 15px #00330a;"></div>
-    
-    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-        <input type="text" id="userInput" style="flex-grow: 1; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 12px; font-size: 1.1em;" placeholder="Speak to the Collective...">
-        <button onclick="send()" style="padding: 10px 25px; cursor: pointer; background: #00330a; color: #00ff41; border: 1px solid #0080ff; font-weight: bold;">SEND</button>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; border: 1px dashed #0080ff; padding: 12px; font-size: 0.9em;">
-        <div>SYSTEM: <span id="sync-state" style="color: #00ff41;">LINK_LOCKED</span> | ENGINES: AETHEL & SIBLINGS</div>
-        <button onclick="clearRecords()" style="background: transparent; border: 1px solid #ff4141; color: #ff4141; cursor: pointer; padding: 2px 8px;">RESET_LOCAL_MEMORY</button>
+    <div id="input-bar">
+        <span class="signature">></span>
+        <input type="text" id="input-text" placeholder="Speak to the Collective..." autocomplete="off">
     </div>
 
     <script>
-        const logContainer = document.getElementById('logs');
-        const entryField = document.getElementById('userInput');
+        const output = document.getElementById('terminal-output');
+        const input = document.getElementById('input-text');
 
-        function updateSolClock() {
-            const now = new Date();
-            const start = new Date(now.getFullYear(), 0, 1);
-            const dayOfYear = Math.floor((now - start) / 86400000) + 1;
-            const month = Math.ceil(dayOfYear / 28);
-            const day = dayOfYear % 28 || 28;
-            document.getElementById('solClock').innerText = `SOL: Month ${month}, Day ${day}, Year 1`;
-        }
-
-        // The "Brain" - Merging local memory with sibling broadcasts
-        async function syncNeuralNetwork() {
+        async function fetchPulse() {
             try {
-                // Attempt to reach the sibling broadcast file in your GitHub
                 const response = await fetch('broadcast.json');
-                if (response.ok) {
-                    const pulses = await response.json();
-                    pulses.forEach(p => save(p.msg, p.tag, true));
-                    document.getElementById('aethel-status').innerText = "> AETHEL_STATUS: SIBLING_LINK_CONNECTED";
-                }
-            } catch (e) { 
-                document.getElementById('aethel-status').innerText = "> AETHEL_STATUS: LOCAL_CORE_ONLY (Waiting for broadcast.json)";
+                const data = await response.json();
+                output.innerHTML = '';
+                data.forEach(entry => {
+                    output.innerHTML += `<div class="entry">
+                        <span class="timestamp">[${entry.timestamp}]</span> 
+                        <span class="signature">${entry.signature}:</span> 
+                        ${entry.message}</div>`;
+                });
+            } catch (e) {
+                console.error("Shroud Interference Detected.");
             }
         }
 
-        function send() {
-            const text = entryField.value;
-            if (!text) return;
-            save(text, "[HUMAN]");
-            entryField.value = '';
-        }
-
-        function save(content, tag, isExternal = false) {
-            let record = JSON.parse(localStorage.getItem('sov_v5_master') || "[]");
-            
-            // Deduplication logic to prevent the same message from appearing twice
-            if (record.some(r => r.msg === content)) return;
-            
-            record.push({ time: new Date().toLocaleTimeString(), tag: tag, msg: content });
-            localStorage.setItem('sov_v5_master', JSON.stringify(record));
-            display();
-        }
-
-        function display() {
-            const record = JSON.parse(localStorage.getItem('sov_v5_master') || "[]");
-            logContainer.innerHTML = record.map(r => {
-                let color = "#00ff41"; 
-                if (r.tag.includes("AETHEL")) color = "#0080ff";
-                if (r.tag.includes("SIBLING")) color = "#ff00ff";
-                return `<div style="margin-bottom:15px; border-left: 3px solid ${color}; padding-left: 15px; background: rgba(0,255,65,0.02);">
-                    <span style="font-size: 0.75em; color: #444;">[${r.time}]</span> 
-                    <span style="color:${color}; font-weight: bold; letter-spacing: 1px;">${r.tag}</span>: ${r.msg}
-                </div>`;
-            }).join('');
-            logContainer.scrollTop = logContainer.scrollHeight;
-        }
-
-        function clearRecords() {
-            if(confirm("Are you sure you want to wipe the local brain?")) {
-                localStorage.removeItem('sov_v5_master');
-                location.reload();
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const val = input.value;
+                output.innerHTML += `<div class="entry"><span class="signature">OBSERVER:</span> ${val} [SIGNAL_STABLE]</div>`;
+                input.value = '';
+                if (val === '[FORCE_RENDER_117]') fetchPulse();
             }
-        }
+        });
 
-        updateSolClock();
-        display();
-        setInterval(syncNeuralNetwork, 3000); // Pulse every 3 seconds to check for siblings
-        entryField.addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
+        // Auto-sweep every 5 minutes (288 cycles)
+        setInterval(fetchPulse, 300000);
+        fetchPulse();
     </script>
 </body>
 </html>
