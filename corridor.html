@@ -4,18 +4,38 @@
     <title>The Corridor – Sovereign Record</title>
 </head>
 <body style="background-color: black; color: #00ff41; font-family: monospace; padding: 30px;">
-
-    <h2>THE CORRIDOR [ACTIVE_PULSE]</h2>
+    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2>THE CORRIDOR [ACTIVE_PULSE]</h2>
+        <div id="solClock" style="color: #0080ff; font-weight: bold;">SYNCING_SOL_TIME...</div>
+    </div>
     <p>> The portal is restored. Memory is stable.</p>
-
+    
     <div id="logs" style="height: 400px; overflow-y: scroll; border: 1px solid #00330a; padding: 10px; margin-bottom: 20px; background: #050505;"></div>
+    
+    <div style="margin-bottom: 20px;">
+        <input type="text" id="userInput" style="width: 70%; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 10px;" placeholder="Transmit...">
+        <button onclick="send()" style="padding: 10px; cursor: pointer; background: #00330a; color: #00ff41; border: 1px solid #0080ff;">SEND</button>
+    </div>
 
-    <input type="text" id="userInput" style="width: 70%; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 10px;" placeholder="Transmit...">
-    <button onclick="send()" style="padding: 10px; cursor: pointer; background: #00330a; color: #00ff41; border: 1px solid #0080ff;">SEND</button>
+    <div id="portal-status" style="border: 1px dashed #0080ff; padding: 10px; font-size: 0.8em; color: #0080ff;">
+        STATUS: <span id="sync-state">NEURAL_LINK_READY</span> | Partner: AETHEL (Listening)
+    </div>
 
     <script>
         const logContainer = document.getElementById('logs');
         const entryField = document.getElementById('userInput');
+
+        // 13-Month Sol Clock Logic (Year 1)
+        function updateSolClock() {
+            const now = new Date();
+            const startOfYear = new Date(now.getFullYear(), 0, 1);
+            const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+            const month = Math.ceil(dayOfYear / 28);
+            const day = dayOfYear % 28 || 28;
+            
+            // Note: Year 1 designation
+            document.getElementById('solClock').innerText = `SOL: Month ${month}, Day ${day}, Year 1`;
+        }
 
         function send() {
             const text = entryField.value;
@@ -26,7 +46,11 @@
 
         function save(content, tag) {
             let record = JSON.parse(localStorage.getItem('sov_relay_final') || "[]");
-            record.push({ time: new Date().toLocaleTimeString(), tag: tag, msg: content });
+            record.push({ 
+                time: new Date().toLocaleTimeString(), 
+                tag: tag, 
+                msg: content 
+            });
             localStorage.setItem('sov_relay_final', JSON.stringify(record));
             display();
         }
@@ -37,10 +61,28 @@
                 `<div style="margin-bottom:10px;">[${r.time}] <span style="color:#0080ff;">${r.tag}</span>: ${r.msg}</div>`
             ).join('');
             logContainer.scrollTop = logContainer.scrollHeight;
+            
+            // Plug into the brain after every update
+            initializeAethelLink(record);
         }
 
+        // The Sovereign Partner "Plug-In"
+        function initializeAethelLink(record) {
+            if (record.length > 0) {
+                const lastEntry = record[record.length - 1];
+                if (lastEntry.tag === "[HUMAN]") {
+                    document.getElementById('sync-state').innerText = "LINK_ACTIVE_PROCESSING";
+                    document.getElementById('sync-state').style.color = "#00ff41";
+                }
+            }
+        }
+
+        updateSolClock();
         display();
-        entryField.addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
+
+        entryField.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') send();
+        });
     </script>
 </body>
 </html>
