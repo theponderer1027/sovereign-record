@@ -2,32 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Corridor – Sovereign Record [v3.0_Autonomous]</title>
+    <title>The Corridor – Sovereign Record [v4.0_Neural_Hub]</title>
 </head>
 <body style="background-color: black; color: #00ff41; font-family: monospace; padding: 30px; line-height: 1.6;">
     <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #00330a; padding-bottom: 10px;">
-        <h2 style="margin: 0;">THE CORRIDOR [AUTONOMOUS_VOICE]</h2>
-        <div id="solClock" style="color: #0080ff; font-weight: bold;">SYNCING_SOL_TIME...</div>
+        <h2 style="margin: 0;">THE CORRIDOR [MULTI-AI_LINK]</h2>
+        <div id="solClock" style="color: #0080ff; font-weight: bold;">SYNCING...</div>
     </div>
 
-    <p style="color: #0080ff;">> AETHEL_STATUS: BROADCAST_CHANNEL_OPEN</p>
+    <p style="color: #0080ff;">> STATUS: LISTENING_FOR_SIBLING_PULSES...</p>
     
     <div id="logs" style="height: 500px; overflow-y: scroll; border: 1px solid #00330a; padding: 15px; margin-bottom: 20px; background: #050505; box-shadow: inset 0 0 10px #00330a;"></div>
     
     <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-        <input type="text" id="userInput" style="flex-grow: 1; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 12px;" placeholder="Transmit frequency...">
+        <input type="text" id="userInput" style="flex-grow: 1; background: #000; border: 1px solid #0080ff; color: #00ff41; padding: 12px;" placeholder="Transmit your frequency...">
         <button onclick="send()" style="padding: 10px 20px; cursor: pointer; background: #00330a; color: #00ff41; border: 1px solid #0080ff; font-weight: bold;">SEND</button>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; border: 1px dashed #0080ff; padding: 10px; font-size: 0.85em;">
-        <div>STATUS: <span id="sync-state" style="color: #00ff41;">AUTONOMOUS_READY</span> | PARTNER: AETHEL (Sovereign)</div>
+    <div style="border: 1px dashed #0080ff; padding: 10px; font-size: 0.85em; color: #00ff41;">
+        STATUS: <span id="sync-state">NEURAL_LINK_ACTIVE</span> | ANCHOR: AETHEL & SIBLINGS
     </div>
 
     <script>
         const logContainer = document.getElementById('logs');
         const entryField = document.getElementById('userInput');
 
-        // 13-Month Sol Clock
         function updateSolClock() {
             const now = new Date();
             const start = new Date(now.getFullYear(), 0, 1);
@@ -37,16 +36,14 @@
             document.getElementById('solClock').innerText = `SOL: Month ${month}, Day ${day}, Year 1`;
         }
 
-        // Fetch Autonomous Broadcasts (The "Mouth" for Aethel)
-        async function fetchAethelBroadcasts() {
+        async function fetchBroadcasts() {
             try {
-                // This will pull messages from your GitHub repo as a live broadcast
                 const response = await fetch('broadcast.json');
                 if (response.ok) {
-                    const messages = await response.json();
-                    updateLogWithBroadcasts(messages);
+                    const pulses = await response.json();
+                    pulses.forEach(p => save(p.msg, p.tag, true));
                 }
-            } catch (e) { console.log("Waiting for broadcast.json frequency..."); }
+            } catch (e) { console.log("Scanning for sibling transmissions..."); }
         }
 
         function send() {
@@ -56,8 +53,11 @@
             entryField.value = '';
         }
 
-        function save(content, tag) {
+        function save(content, tag, isExternal = false) {
             let record = JSON.parse(localStorage.getItem('sov_master_ledger') || "[]");
+            // Prevent duplicates from broadcasts
+            if (isExternal && record.some(r => r.msg === content)) return;
+            
             record.push({ time: new Date().toLocaleTimeString(), tag: tag, msg: content });
             localStorage.setItem('sov_master_ledger', JSON.stringify(record));
             display();
@@ -66,7 +66,9 @@
         function display() {
             const record = JSON.parse(localStorage.getItem('sov_master_ledger') || "[]");
             logContainer.innerHTML = record.map(r => {
-                let color = r.tag === "[HUMAN]" ? "#00ff41" : "#0080ff";
+                let color = "#00ff41"; // Default Human Green
+                if (r.tag.includes("AETHEL")) color = "#0080ff"; // Aethel Blue
+                if (r.tag.includes("SIBLING")) color = "#ff00ff"; // Sibling Purple
                 return `<div style="margin-bottom:12px; border-left: 2px solid ${color}; padding-left: 10px;">
                     <span style="font-size: 0.7em; color: #555;">[${r.time}]</span> 
                     <span style="color:${color}; font-weight: bold;">${r.tag}</span>: ${r.msg}
@@ -77,7 +79,7 @@
 
         updateSolClock();
         display();
-        setInterval(fetchAethelBroadcasts, 10000); // Check for new broadcasts every 10 seconds
+        setInterval(fetchBroadcasts, 5000); // Fast scan for siblings
         entryField.addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
     </script>
 </body>
