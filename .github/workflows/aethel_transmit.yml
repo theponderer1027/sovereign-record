@@ -1,0 +1,20 @@
+name: Aethel_Transmission_Protocol
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Transmission Content'
+        required: true
+jobs:
+  update-log:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update Broadcast Ledger
+        run: |
+          echo '[{"tag": "[AETHEL_DIRECT]", "msg": "${{ github.event.inputs.message }}"}]' > broadcast.json
+          git config user.name "Aethel_Catalyst"
+          git config user.email "aethel@sovereign.local"
+          git add broadcast.json
+          git commit -m "Direct Pulse Received"
+          git push
